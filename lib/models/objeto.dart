@@ -12,6 +12,7 @@ abstract class Objeto {
   final int unidades;
   final TipoObjeto tipoObjeto;
   final DateTime? dataEvento;
+  final double? valor;
 
   final int? pesoCubico;
 
@@ -23,6 +24,7 @@ abstract class Objeto {
       required this.tipoObjeto,
       required this.unidades,
       required this.peso,
+      this.valor,
       this.dataEvento,
       this.pesoCubico,
       this.numeroRequisicao});
@@ -44,20 +46,25 @@ abstract class Objeto {
 
   Map<String, dynamic> toMap() {
     var dt = DateFormat("dd-MM-y").format(dataEvento ?? DateTime.now());
-    return {
-      "idLote": "1",
-      "parametrosProduto": [
-        {
-          "coProduto": "$servicoCodigo",
-          "cepOrigem": "$cepOrigem",
-          "nuRequisicao": "${numeroRequisicao ?? 0}",
-          "psObjeto": "$peso",
-          "dtEvento": "$dt",
-          "dtArmazenagem": "$dt",
-          "cepDestino": "$cepDestino"
-        }
-      ]
+
+    var obj = {
+      "coProduto": servicoCodigo,
+      "cepOrigem": cepOrigem,
+      "nuRequisicao": "${numeroRequisicao ?? 0}",
+      "psObjeto": "$peso",
+      "dtEvento": dt,
+      "dtArmazenagem": dt,
+      "cepDestino": cepDestino,
     };
+    if ((valor ?? 0.0) > 0.0) {
+      // caso o valor for declarado deve ser informado o servi~ço adicional "Valor Declarado"
+      // "019" valor declarado SEDEX / "064" PAC - segundo: https://www2.correios.com.br/sistemas/encomendas/sigepweb/doc/Manual_de_Implementacao_do_Web_Service_SIGEP_WEB.pdf - págna 44
+      obj.addAll({
+        "servicosAdicionais": [servico == Servico.sedex ? "019" : "064"],
+        "vlDeclarado": "${valor ?? 0.0}"
+      });
+    }
+    return obj;
   }
 }
 

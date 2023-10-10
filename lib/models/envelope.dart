@@ -10,6 +10,9 @@ class Envelope extends Objeto {
       required super.contrato,
       required super.unidades,
       required super.peso,
+      super.numeroRequisicao,
+      super.dataEvento,
+      super.valor,
       required this.altura,
       required this.largura})
       : super(tipoObjeto: TipoObjeto.cilindro);

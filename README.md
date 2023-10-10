@@ -55,6 +55,7 @@ Future<void> main() async {
       altura: 4,
       largura: 12,
       comprimento: 16,
+      valor: 10.0
     )
   ];
   try {

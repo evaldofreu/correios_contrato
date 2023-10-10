@@ -22,7 +22,9 @@ class PrecoApiClient {
       'accept': 'application/json',
       'Authorization': 'Bearer ${autorizacao.token}'
     };
-    var json = jsonEncode(objetos.map((e) => e.toMap()).toList());
+    var produtos = objetos.map((e) => e.toMap()).toList();
+    var json = jsonEncode({"idLote": "1", "parametrosProduto": produtos});
+
     http.Response response =
         await _httpClient.post(uri, headers: headers, body: json);
     switch (response.statusCode) {
@@ -32,6 +34,8 @@ class PrecoApiClient {
             .map((precoProduto) => Preco.fromJson(precoProduto))
             .toList();
       case 400:
+        print("Dados enviados: $json");
+        print(response.body);
         throw "Dados insuficientes ou incompletos";
       case 500:
         throw "Erro no servidor";

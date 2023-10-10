@@ -24,6 +24,7 @@ class CorreiosContrato {
           autorizacao: autorizacao!,
           tipoRemessa: TipoRemessa.nacional);
     } else {
+      print(autorizacao);
       throw "Problemas com credenciais de acesso.";
     }
   }

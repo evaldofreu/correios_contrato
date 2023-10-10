@@ -8,6 +8,7 @@ class Caixa extends Objeto {
     required super.contrato,
     required super.unidades,
     required super.peso,
+    super.valor,
     super.numeroRequisicao,
     required this.comprimento,
     required this.largura,
