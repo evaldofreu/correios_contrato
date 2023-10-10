@@ -4,8 +4,7 @@ class Envelope extends Objeto {
   final int altura;
   final int largura;
   Envelope(
-      {required super.tipoRemessa,
-      required super.cepOrigem,
+      {required super.cepOrigem,
       required super.cepDestino,
       required super.servico,
       required super.contrato,

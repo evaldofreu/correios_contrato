@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'contrato.dart';
 
 abstract class Objeto {
-  final TipoRemessa tipoRemessa;
   final String cepOrigem;
   final String cepDestino;
   final Servico servico;
@@ -17,8 +16,7 @@ abstract class Objeto {
   final int? pesoCubico;
 
   Objeto(
-      {required this.tipoRemessa,
-      required this.cepOrigem,
+      {required this.cepOrigem,
       required this.cepDestino,
       required this.servico,
       required this.contrato,

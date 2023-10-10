@@ -14,21 +14,22 @@ Future<void> main() async {
 
   var api = CorreiosContrato(contrato: contrato);
 
-  Caixa objeto = Caixa(
-    cepDestino: '14600000',
-    cepOrigem: '14600000',
-    contrato: contrato,
-    peso: 500, // 500g
-    servico: Servico.sedex,
-    tipoRemessa: TipoRemessa.nacional,
-    unidades: 1,
-    numeroRequisicao: "0",
-    altura: 4,
-    largura: 12,
-    comprimento: 16,
-  );
+  List<Objeto> objetos = [
+    Caixa(
+      cepDestino: '14600000',
+      cepOrigem: '14600000',
+      contrato: contrato,
+      peso: 500, // 500g
+      servico: Servico.sedex,
+      unidades: 1,
+      numeroRequisicao: "0",
+      altura: 4,
+      largura: 12,
+      comprimento: 16,
+    )
+  ];
   try {
-    await api.getPreco(objeto).then((value) => print(value));
+    await api.getPreco(objetos).then((value) => print(value));
   } catch (e) {
     print(e);
   }

@@ -29,15 +29,42 @@ Na página da API dos correios (https://cws.correios.com.br/acesso-componentes) 
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
 
 ```dart
-const like = 'sample';
+Future<void> main() async {
+  var contrato = Contrato(
+      codigoUsuario: "33333333333333", // cnpj da empresa
+      codigoAcesso:
+          "XXXXXXXXXXXXXXXXX", //  Código de acesso gerado na pagina cws.correios.com
+      numeroCartao: "00777777777", //  Número do cartão do contrato
+      numeroContrato:
+          "3333333333"); // número do contrato - Pacote mínimo é o BRONZE
+
+  var api = CorreiosContrato(contrato: contrato);
+
+  Caixa objeto = Caixa(
+    cepDestino: '14600000',
+    cepOrigem: '14600000',
+    contrato: contrato,
+    peso: 500, // 500g
+    servico: Servico.sedex,
+    tipoRemessa: TipoRemessa.nacional,
+    unidades: 1,
+    numeroRequisicao: "0",
+    altura: 4,
+    largura: 12,
+    comprimento: 16,
+  );
+  try {
+    await api.getPreco(objeto).then((value) => print(value));
+  } catch (e) {
+    print(e);
+  }
+}
+
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+
+A API de Preço e prazo são restritas e você deve solicitar ao gestor responsável pelo seu contrato para libere o uso das APIs restritas.

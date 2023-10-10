@@ -13,14 +13,16 @@ class CorreiosContrato {
   static Autorizacao? autorizacao;
   CorreiosContrato({required this.contrato});
 
-  Future<Preco> getPreco(Objeto objeto) async {
+  Future<List<Preco>> getPreco(List<Objeto> objeto) async {
     if (!(autorizacao?.isAutorizado() ?? false)) {
       var apitoken = TokenAPIClient(contrato: contrato);
       autorizacao = await apitoken.autorizar();
     }
     if (autorizacao?.isAutorizado() ?? false) {
-      return PrecoApiClient()
-          .getPreco(objeto: objeto, autorizacao: autorizacao!);
+      return PrecoApiClient().getPreco(
+          objetos: objeto,
+          autorizacao: autorizacao!,
+          tipoRemessa: TipoRemessa.nacional);
     } else {
       throw "Problemas com credenciais de acesso.";
     }

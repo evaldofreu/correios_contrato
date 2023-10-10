@@ -2,7 +2,6 @@ import 'objeto.dart';
 
 class Caixa extends Objeto {
   Caixa({
-    required super.tipoRemessa,
     required super.cepOrigem,
     required super.cepDestino,
     required super.servico,

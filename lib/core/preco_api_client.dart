@@ -6,25 +6,26 @@ import 'package:correios_contrato/models/preco.dart';
 import 'dart:convert';
 
 class PrecoApiClient {
-  Future<Preco> getPreco(
-      {required Objeto objeto, required Autorizacao autorizacao}) async {
+  Future<List<Preco>> getPreco(
+      {required List<Objeto> objetos,
+      required Autorizacao autorizacao,
+      required TipoRemessa tipoRemessa}) async {
     var uri = Uri.parse(
-        "https://api.correios.com.br/preco/v1/${objeto.tipoRemessa == TipoRemessa.nacional ? "nacional" : "internacional"}");
+        "https://api.correios.com.br/preco/v1/${tipoRemessa == TipoRemessa.nacional ? "nacional" : "internacional"}");
 
     var headers = {
       "Content-Type": "application/json",
       'accept': 'application/json',
       'Authorization': 'Bearer ${autorizacao.token}'
     };
-    var json = jsonEncode(objeto.toMap());
-    print(json);
+    var json = jsonEncode(objetos.map((e) => e.toMap()).toList());
     http.Response response = await http.post(uri, headers: headers, body: json);
-
     switch (response.statusCode) {
       case 200:
-        print(response.body);
-        return Preco();
-
+        List<dynamic> precos = jsonDecode(response.body);
+        return precos
+            .map((precoProduto) => Preco.fromJson(precoProduto))
+            .toList();
       case 400:
         throw "Dados insuficientes ou incompletos";
       case 500:

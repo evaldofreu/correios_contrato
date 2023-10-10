@@ -5,8 +5,7 @@ class Cilindro extends Objeto {
   final int comprimento;
 
   Cilindro(this.diametro, this.comprimento,
-      {required super.tipoRemessa,
-      required super.cepOrigem,
+      {required super.cepOrigem,
       required super.cepDestino,
       required super.servico,
       required super.contrato,
