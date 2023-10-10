@@ -8,9 +8,12 @@ import 'package:http/http.dart' as http;
 class TokenAPIClient {
   ///Dados do contrato firmado com os Correios
   final Contrato contrato;
+  late http.Client _httpClient;
 
   ///Inicializa o adaptador com as informações do contrato
-  TokenAPIClient({required this.contrato});
+  TokenAPIClient({required this.contrato, http.Client? httpClient}) {
+    _httpClient = httpClient ?? http.Client();
+  }
 
   ///Solicita autorização de acesso a API
   Future<Autorizacao> autorizar() async {
@@ -26,7 +29,7 @@ class TokenAPIClient {
         "https://api.correios.com.br/token/v1/autentica/cartaopostagem");
 
     http.Response response =
-        await http.post(uri, headers: headers, body: jsonEncode(body));
+        await _httpClient!.post(uri, headers: headers, body: jsonEncode(body));
     print(response);
     if (response.statusCode == 201) {
       var json = jsonDecode(response.body);

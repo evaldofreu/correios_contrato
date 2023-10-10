@@ -6,6 +6,10 @@ import 'package:correios_contrato/models/preco.dart';
 import 'dart:convert';
 
 class PrecoApiClient {
+  late http.Client _httpClient;
+  PrecoApiClient({http.Client? httpClient}) {
+    _httpClient = httpClient ?? http.Client();
+  }
   Future<List<Preco>> getPreco(
       {required List<Objeto> objetos,
       required Autorizacao autorizacao,
@@ -19,7 +23,8 @@ class PrecoApiClient {
       'Authorization': 'Bearer ${autorizacao.token}'
     };
     var json = jsonEncode(objetos.map((e) => e.toMap()).toList());
-    http.Response response = await http.post(uri, headers: headers, body: json);
+    http.Response response =
+        await _httpClient.post(uri, headers: headers, body: json);
     switch (response.statusCode) {
       case 200:
         List<dynamic> precos = jsonDecode(response.body);
